@@ -8,9 +8,20 @@ from .models import *
 
 def home(request):
     customers=Customer.objects.all()
-    orders=Customer.objects.all()
-    context={'customers':customers,'orders':orders}
-    print(context)
+    orders=Order.objects.all()
+    
+    total_customer=customers.count()
+    total_orders=orders.count()
+    total_pending=Order.objects.filter(status="Pending").count()
+    total_delivered=Order.objects.filter(status="Delivered").count()
+    context={
+        'customers':customers,
+        'orders':orders,
+        'total_orders':total_orders,
+        'total_customer':total_customer,
+        'total_delivered':total_delivered,
+        'total_pending':total_pending
+        }
     return render(request,'accounts/dashboard.html',context)
 
 def products(request):
